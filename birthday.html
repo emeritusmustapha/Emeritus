@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎉 Happy Birthday Mustapha!</title>
+
+<style>
+/* ---------------------------------------------------
+   GLOBAL STYLES
+--------------------------------------------------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #4e54c8, #8f94fb);
+  color: #fff;
+  text-align: center;
+  overflow-x: hidden;
+}
+h1, h2 { text-shadow: 0 0 15px rgba(255,255,255,0.8); }
+
+/* ---------------------------------------------------
+   INTRO & COUNTDOWN
+--------------------------------------------------- */
+.intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.6);
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+.countdown {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+.btn {
+  background: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s;
+  font-weight: bold;
+}
+.btn:hover {
+  background: #fff200;
+  transform: scale(1.1);
+}
+
+/* ---------------------------------------------------
+   CELEBRATION AREA
+--------------------------------------------------- */
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.photo {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid white;
+  box-shadow: 0 0 25px rgba(255,255,255,0.6);
+  object-fit: cover;
+  animation: pulse 2s infinite alternate;
+  margin-top: 20px;
+}
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+h1 {
+  font-size: 3em;
+  margin-top: 20px;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff6ec4, 0 0 20px #7873f5; }
+  to { text-shadow: 0 0 30px #ff6ec4, 0 0 60px #7873f5; }
+}
+p { margin: 15px auto; font-size: 1.2rem; max-width: 600px; color: #f0f0f0; }
+
+/* ---------------------------------------------------
+   SLIDESHOW
+--------------------------------------------------- */
+.slideshow {
+  margin-top: 30px;
+  font-style: italic;
+  font-size: 1.3em;
+  height: 40px;
+  transition: opacity 1s ease;
+}
+
+/* ---------------------------------------------------
+   PHOTO GALLERY
+--------------------------------------------------- */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+.gallery img {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  border: 3px solid #fff;
+  box-shadow: 0 0 15px rgba(255,255,255,0.6);
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------
+   GUEST WISHES
+--------------------------------------------------- */
+#wishForm {
+  margin-top: 30px;
+}
+input, textarea {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  width: 80%;
+  margin: 5px 0;
+}
+button[type="submit"] {
+  background: #00ffcc;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 25px;
+}
+#wishes {
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* ---------------------------------------------------
+   ANIMATIONS
+--------------------------------------------------- */
+.balloon {
+  position: absolute;
+  bottom: -150px;
+  width: 50px;
+  height: 70px;
+  border-radius: 50%;
+  animation: floatUp 10s linear infinite;
+  opacity: 0.9;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
+canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+/* ---------------------------------------------------
+   FOOTER
+--------------------------------------------------- */
+footer {
+  margin-top: 40px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO WITH COUNTDOWN -->
+<div class="intro" id="intro">
+  <h1>🎂 Mustapha’s Birthday Countdown 🎉</h1>
+  <div class="countdown" id="countdown">Loading...</div>
+  <button class="btn" onclick="startCelebration()">Start Celebration</button>
+</div>
+
+<!-- CELEBRATION -->
+<div class="container" id="main">
+  <h1>🎉 Happy Birthday, Mustapha! 🎈</h1>
+  <img src="https://via.placeholder.com/180" class="photo" alt="Mustapha Photo">
+  <p>Wishing you joy, laughter, and dreams that take flight! 💫</p>
+
+  <!-- Slideshow -->
+  <div class="slideshow" id="slideshow"></div>
+
+  <!-- Photo Gallery -->
+  <div class="gallery">
+    <img src="https://picsum.photos/id/1015/200" alt="">
+    <img src="https://picsum.photos/id/1025/200" alt="">
+    <img src="https://picsum.photos/id/1035/200" alt="">
+    <img src="https://picsum.photos/id/1045/200" alt="">
+  </div>
+
+  <!-- Wishes Form -->
+  <form id="wishForm">
+    <h3>💬 Leave a Birthday Wish!</h3>
+    <input type="text" id="name" placeholder="Your name" required><br>
+    <textarea id="message" placeholder="Your message" required></textarea><br>
+    <button type="submit">Send Wish</button>
+  </form>
+
+  <div id="wishes"></div>
+
+  <div>
+    <button class="btn" onclick="stopCelebration()">Stop Celebration</button>
+  </div>
+
+  <footer>Made with ❤️ for Mustapha’s special day — December 25, 2025</footer>
+</div>
+
+<!-- Confetti & Fireworks Canvas -->
+<canvas id="confetti"></canvas>
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* ---------------------------------------------------
+   COUNTDOWN TIMER
+--------------------------------------------------- */
+const targetDate = new Date("Dec 25, 2025 00:00:00").getTime();
+const countdownEl = document.getElementById("countdown");
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+  if (diff <= 0) {
+    countdownEl.innerHTML = "🎉 It's Mustapha's Birthday!";
+    clearInterval(timer);
+  } else {
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    countdownEl.innerHTML = `${days}d ${hours}h ${mins}m left`;
+  }
+}, 1000);
+
+/* ---------------------------------------------------
+   CELEBRATION
+--------------------------------------------------- */
+const music = document.getElementById("music");
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let confetti = [], running = false;
+const colors = ['#ff9a9e','#fad0c4','#fbc2eb','#a6c1ee','#f6d365'];
+
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+window.addEventListener("resize", resize);
+resize();
+
+function startCelebration() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("main").style.display = "flex";
+  music.play();
+  createBalloons();
+  initConfetti();
+  fireworks();
+  running = true;
+}
+function stopCelebration() {
+  music.pause();
+  running = false;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  document.querySelectorAll(".balloon").forEach(el => el.remove());
+}
+
+/* ---------------------------------------------------
+   CONFETTI
+--------------------------------------------------- */
+function initConfetti() {
+  confetti = [];
+  for (let i = 0; i < 200; i++) {
+    confetti.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 2 + 1,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+  draw();
+}
+function draw() {
+  if (!running) return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2, false);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+  });
+  confetti.forEach(p => {
+    p.y += p.d;
+    if (p.y > canvas.height) p.y = -10;
+  });
+  requestAnimationFrame(draw);
+}
+
+/* ---------------------------------------------------
+   BALLOONS
+--------------------------------------------------- */
+function createBalloons() {
+  for (let i = 0; i < 25; i++) {
+    let b = document.createElement("div");
+    b.classList.add("balloon");
+    b.style.left = Math.random() * 100 + "vw";
+    b.style.background = `hsl(${Math.random()*360}, 70%, 60%)`;
+    b.style.animationDuration = 6 + Math.random() * 6 + "s";
+    document.body.appendChild(b);
+  }
+}
+
+/* ---------------------------------------------------
+   FIREWORKS
+--------------------------------------------------- */
+function fireworks() {
+  const particles = [];
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      radius: Math.random() * 3,
+      angle: Math.random() * 2 * Math.PI,
+      speed: Math.random() * 5 + 2
+    });
+  }
+  let frame = 0;
+  function animateFirework() {
+    if (frame > 100) return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+      const x = p.x + Math.cos(p.angle) * p.speed * frame;
+      const y = p.y + Math.sin(p.angle) * p.speed * frame;
+      ctx.beginPath();
+      ctx.arc(x, y, p.radius, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    });
+    frame++;
+    requestAnimationFrame(animateFirework);
+  }
+  animateFirework();
+}
+
+/* ---------------------------------------------------
+   SLIDESHOW
+--------------------------------------------------- */
+const messages = [
+  "Wishing you endless happiness and success!",
+  "May your year ahead be filled with blessings 🌟",
+  "Keep smiling and shining, Mustapha!",
+  "You're the reason today is so special ❤️"
+];
+let index = 0;
+const slideEl = document.getElementById("slideshow");
+function showSlides() {
+  slideEl.style.opacity = 0;
+  setTimeout(() => {
+    slideEl.innerHTML = messages[index];
+    slideEl.style.opacity = 1;
+    index = (index + 1) % messages.length;
+  }, 500);
+}
+setInterval(showSlides, 4000);
+showSlides();
+
+/* ---------------------------------------------------
+   GUEST WISHES (local storage)
+--------------------------------------------------- */
+const form = document.getElementById("wishForm");
+const wishesContainer = document.getElementById("wishes");
+let wishes = JSON.parse(localStorage.getItem("wishes") || "[]");
+renderWishes();
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const name = document.getElementById("name").value;
+  const message = document.getElementById("message").value;
+  wishes.push({name, message});
+  localStorage.setItem("wishes", JSON.stringify(wishes));
+  renderWishes();
+  form.reset();
+});
+function renderWishes() {
+  wishesContainer.innerHTML = "<h3>💌 Birthday Wishes:</h3>" + wishes.map(w => `<p><strong>${w.name}:</strong> ${w.message}</p>`).join("");
+}
+</script>
+</body>
+</html>
